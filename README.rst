@@ -10,7 +10,7 @@ Installation
 
 Either install via pip::
 
-    $ pip install http-status
+    $ pip install http_status
 
 Or clone the git repo, and run setup.py::
 
