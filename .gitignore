@@ -1,0 +1,26 @@
+## linux backup
+*~
+
+## windows cache
+Thumbs.db
+
+## mac cache
+.DS_Store
+
+## CTags
+.tags
+.tags_sorted_by_file
+
+## ide files
+.project
+.pydevproject
+.settings/*
+*.sublime-*
+
+## python
+*.pyc
+*.pyo
+*__pycache__
+
+## Distribute
+build/*
