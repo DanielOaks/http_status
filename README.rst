@@ -4,6 +4,28 @@ HTTP Status
 
 A simple HTTP status code/name/description library for Python.
 
+------------
+Installation
+------------
+
+Either install via pip::
+
+    $ pip install http-status
+
+Or clone the git repo, and run setup.py::
+
+    $ git clone https://github.com/DanielOaks/http_status.git
+    Cloning into 'http_status'...
+    [...]
+    Unpacking objects: 100% (18/18), done.
+
+    $ cd http_status/
+
+    $ python setup.py build install
+    running build
+    [...]
+    Writing /usr/local/lib/python2.7/site-packages/http_status-0.1.0a-py2.7.egg-info
+
 -----
 Usage
 -----
