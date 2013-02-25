@@ -12,8 +12,8 @@ with open('README.rst') as file:
     long_description = file.read()
 
 setup(
-    name='HTTP Status',
-    version='0.1.0',
+    name='http-status',
+    version='0.1.0a',
     description='HTTP Status codes, names, and descriptions.',
     long_description=long_description,
     author='Daniel Oaks',
