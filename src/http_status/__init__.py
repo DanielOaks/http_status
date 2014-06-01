@@ -238,7 +238,6 @@ description = {
 }
 
 
-
 class Status(object):
     """Holds an HTTP status code, and provides an easy way to access its name and description."""
 
