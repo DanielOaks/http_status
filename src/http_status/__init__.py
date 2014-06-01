@@ -243,7 +243,7 @@ class Status(object):
 
     def __init__(self, code=0,
                  name_fail='No HTTP Name',
-                 description_fail='No HTTP Description.'):
+                 description_fail='No HTTP Description'):
         self.code = code
         self.name_fail = name_fail
         self.description_fail = description_fail
