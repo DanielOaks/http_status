@@ -235,15 +235,22 @@ description = {
 }
 
 
-def _validate_int(integer, minimum=None, maximum=None):
-    """Validate that the given integer has the given properties."""
-    if not isinstance(integer, int):
-        raise Exception("[{}] {}  is not an integer".format(integer, type(integer)))
-    if integer < minimum:
-        raise Exception("{} is under our minimum value".format(integer))
-    elif integer > maximum:
-        raise Exception("{} is over our maximum value".format(integer))
-    return integer
+class InvalidHttpCode(Exception):
+    pass
+
+
+def validate_http_code(http_code, minimum=100, maximum=599):
+    """Validate that the given http_code has the given properties."""
+    try:
+        http_code = int(http_code)
+    except:
+        raise InvalidHttpCode("[{}] {}  is not a valid integer".format(http_code, type(http_code)))
+
+    if http_code < minimum:
+        raise InvalidHttpCode("{} is below minimum HTTP status code {}".format(http_code, minimum))
+    elif http_code > maximum:
+        raise InvalidHttpCode("{} is above maximum HTTP status code {}".format(http_code, maximum))
+    return http_code
 
 
 class Status(object):
@@ -255,7 +262,7 @@ class Status(object):
                  code=200,
                  name_fail='No HTTP Name',
                  description_fail='No HTTP Description'):
-        self.code = _validate_int(code, minimum=100, maximum=599)
+        self.code = validate_http_code(code)
         self.name_fail = name_fail
         self.description_fail = description_fail
 
