@@ -271,6 +271,5 @@ class Status(Schema):
 
 class NoneStatus(Status):
     """Holds an HTTP status code, and provides an easy way to access its name and description."""
-
     def __init__(self, code=200, name_fail=None, description_fail=None):
         Status.__init__(self, code, name_fail, description_fail)
