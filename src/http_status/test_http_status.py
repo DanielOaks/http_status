@@ -2,7 +2,6 @@
 # written by Daniel Oaks <daniel@danieloaks.net>
 # licensed under the BSD 2-clause license
 __author__ = 'daniel@danieloaks.net'            # Some modifications by Chad Nelson
-from formencode import Schema, validators
 
 """HTTP status codes, names, and descriptions.
 
@@ -236,6 +235,17 @@ description = {
 }
 
 
+def _validate_int(integer, minimum=None, maximum=None):
+    """Validate that the given integer has the given properties."""
+    if not isinstance(integer, int):
+        raise Exception("[{}] {}  is not an integer".format(integer, type(integer)))
+    if integer < minimum:
+        raise Exception("{} is under our minimum value".format(integer))
+    elif integer > maximum:
+        raise Exception("{} is over our maximum value".format(integer))
+    return integer
+
+
 class Status(Schema):
     """
     Holds an HTTP status code, and provides an easy way to access its name and description.
@@ -245,10 +255,9 @@ class Status(Schema):
                  code=200,
                  name_fail='No HTTP Name',
                  description_fail='No HTTP Description'):
-        self.code = validators.Int(min=100, max=599).to_python(code)
+        self.code = _validate_int(code, minimum=100, maximum=599)
         self.name_fail = name_fail
         self.description_fail = description_fail
-        super(Status, self).__init__()
 
     @property
     def name(self):
