@@ -254,6 +254,16 @@ class Status(Schema):
         self.description_fail = description_fail
         super(Status, self).__init__()
 
+    def __unicode__(self, verbose=False):
+        """
+        __unicode__(verbose=True) returns:  HTTP <code> <name> <description>
+        __unicode__(verbose=False) returns: HTTP <code> <name>
+        """
+        if verbose:
+            return u'HTTP {} {} {}'.format(self.code, self.name, self.description)
+        else:
+            return u'HTTP {} {}'.format(self.code, self.name)
+
     @property
     def name(self):
         """Return the name of the current status code as a string."""
