@@ -1,11 +1,7 @@
 # Source: https://github.com/DanielOaks/http_status/blob/master/src/http_status/__init__.py
-# ----------------------------------------------------------------------------
-# "THE BEER-WARE LICENSE" (Revision 42):
-# <danneh@danneh.net> wrote this file. As long as you retain this notice you
-# can do whatever you want with this stuff. If we meet some day, and you think
-# this stuff is worth it, you can buy me a beer in return Daniel Oakley
-# ----------------------------------------------------------------------------
-__author__ = 'danneh@danneh.net'            # Some modifications by Chad Nelson
+# written by Daniel Oaks <daniel@danieloaks.net>
+# licensed under the BSD 2-clause license
+__author__ = 'daniel@danieloaks.net'            # Some modifications by Chad Nelson
 from formencode import Schema, validators
 
 """HTTP status codes, names, and descriptions.
