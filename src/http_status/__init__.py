@@ -5,6 +5,8 @@
 # can do whatever you want with this stuff. If we meet some day, and you think
 # this stuff is worth it, you can buy me a beer in return Daniel Oakley
 # ----------------------------------------------------------------------------
+__author__ = 'danneh@danneh.net'            # Some modifications by Chad Nelson
+from formencode import Schema, validators
 
 """HTTP status codes, names, and descriptions.
 
@@ -238,15 +240,19 @@ description = {
 }
 
 
-class Status(object):
-    """Holds an HTTP status code, and provides an easy way to access its name and description."""
-
-    def __init__(self, code=0,
+class Status(Schema):
+    """
+    Holds an HTTP status code, and provides an easy way to access its name and description.
+    code must be a positive integer from 100 to 599.
+    """
+    def __init__(self,
+                 code=200,
                  name_fail='No HTTP Name',
                  description_fail='No HTTP Description'):
-        self.code = code
+        self.code = validators.Int(min=100, max=599).to_python(code)
         self.name_fail = name_fail
         self.description_fail = description_fail
+        super(Status, self).__init__()
 
     @property
     def name(self):
@@ -266,5 +272,5 @@ class Status(object):
 class NoneStatus(Status):
     """Holds an HTTP status code, and provides an easy way to access its name and description."""
 
-    def __init__(self, code=0, name_fail=None, description_fail=None):
+    def __init__(self, code=200, name_fail=None, description_fail=None):
         Status.__init__(self, code, name_fail, description_fail)
