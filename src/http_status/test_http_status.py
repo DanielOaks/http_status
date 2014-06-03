@@ -4,8 +4,7 @@
 __author__ = 'Chad Nelson'
 
 from unittest import TestCase, main
-from http_status import Status, NoneStatus
-from formencode import Invalid
+from http_status import Status, NoneStatus, InvalidHttpCode
 
 
 class HTTPStatusTestCase(TestCase):
@@ -14,7 +13,7 @@ class HTTPStatusTestCase(TestCase):
     correct_description = u'Server cannot find requested resource.'
     correct_unicode_verbose = u'HTTP {} {} {}'.format(correct_code, correct_name, correct_description)
     correct_unicode = u'HTTP {} {}'.format(correct_code, correct_name)
-    undefined_code = 480    # Undefined but still in valid range.
+    undefined_code = 480  # Undefined but still in valid range.
     default_code = 200
     default_name_fail = u'No HTTP Name'
     default_description_fail = u'No HTTP Description'
@@ -54,15 +53,15 @@ class StatusTest(HTTPStatusTestCase):
         self.assertEqual(HTTP_Status.description, HTTP_Status.description_fail)
 
     def test_exceeds_max_code(self):
-        with self.assertRaises(Invalid):
+        with self.assertRaises(InvalidHttpCode):
             Status(code=self.exceeds_max_code)
 
     def test_below_min_code(self):
-        with self.assertRaises(Invalid):
+        with self.assertRaises(InvalidHttpCode):
             Status(code=self.below_min_code)
 
     def test_non_numeric_code(self):
-        with self.assertRaises(Invalid):
+        with self.assertRaises(InvalidHttpCode):
             Status(code=self.non_numeric_code)
 
     def test__unicode__(self):
