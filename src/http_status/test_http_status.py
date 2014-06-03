@@ -1,27 +1,29 @@
 #!/usr/bin/env python
 # written by Daniel Oaks <daniel@danieloaks.net>, Chad Nelson
 # licensed under the BSD 2-clause license
+
 __author__ = 'Chad Nelson'
 
+import six
 from unittest import TestCase, main
 from http_status import Status, NoneStatus, InvalidHttpCode
 
 
 class HTTPStatusTestCase(TestCase):
     correct_code = 404
-    correct_name = u'Not Found'
-    correct_description = u'Server cannot find requested resource.'
-    correct_unicode_verbose = u'HTTP {} {} {}'.format(correct_code, correct_name, correct_description)
-    correct_unicode = u'HTTP {} {}'.format(correct_code, correct_name)
+    correct_name = 'Not Found'
+    correct_description = 'Server cannot find requested resource.'
+    correct_unicode_verbose = six.u('HTTP {} {}: {}').format(correct_code, correct_name, correct_description)
+    correct_unicode = six.u('HTTP {} {}').format(correct_code, correct_name)
     undefined_code = 480  # Undefined but still in valid range.
     default_code = 200
-    default_name_fail = u'No HTTP Name'
-    default_description_fail = u'No HTTP Description'
-    alt_name_fail = u'some name'
-    alt_description_fail = u'some description'
+    default_name_fail = 'No HTTP Name'
+    default_description_fail = 'No HTTP Description'
+    alt_name_fail = 'some name'
+    alt_description_fail = 'some description'
     below_min_code = 0
     exceeds_max_code = 777
-    non_numeric_code = u'82ab32z!'
+    non_numeric_code = '82ab32z!'
 
 
 class StatusTest(HTTPStatusTestCase):

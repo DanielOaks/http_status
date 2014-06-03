@@ -9,7 +9,7 @@ with open('README.rst') as file:
 
 setup(
     name='http-status',
-    version='0.1.1b',
+    version='0.2.0b',
     description='HTTP Status codes, names, and descriptions.',
     long_description=long_description,
     author='Daniel Oaks, Chad Nelson',

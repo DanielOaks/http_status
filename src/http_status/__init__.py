@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # written by Daniel Oaks <daniel@danieloaks.net>, Chad Nelson
 # licensed under the BSD 2-clause license
-__author__ = 'Daniel Oaks <daniel@danieloaks.net>, Chad Nelson'
 
 """HTTP status codes, names, and descriptions.
 
@@ -56,6 +55,10 @@ This can be changed by passing arguments ``name_fail`` and
 
 The class ``NoneStatus`` is exactly the same as Status, but ``name_fail``
 and ``description_fail`` both default to None."""
+
+__author__ = 'Daniel Oaks <daniel@danieloaks.net>, Chad Nelson'
+
+import six
 
 # Source 1: Hypertext Transfer Protocol -- HTTP/1.1 RFC 2616 Fielding, et al.
 #           http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
@@ -239,17 +242,26 @@ class InvalidHttpCode(Exception):
     pass
 
 
-def validate_http_code(http_code, minimum=100, maximum=599):
-    """Validate that the given http_code has the given properties."""
+def validate_http_code(http_code, minimum=100, maximum=599, strict=True, default_http_code=0):
+    """Make sure http_code is valid. If strict, throw, else just return default_http_code."""
     try:
         http_code = int(http_code)
     except:
-        raise InvalidHttpCode("[{}] {}  is not a valid integer".format(http_code, type(http_code)))
+        if strict:
+            raise InvalidHttpCode('[{}] {}  is not a valid integer'.format(http_code, type(http_code)))
+        else:
+            return default_http_code
 
     if http_code < minimum:
-        raise InvalidHttpCode("{} is below minimum HTTP status code {}".format(http_code, minimum))
+        if strict:
+            raise InvalidHttpCode('{} is below minimum HTTP status code {}'.format(http_code, minimum))
+        else:
+            return default_http_code
     elif http_code > maximum:
-        raise InvalidHttpCode("{} is above maximum HTTP status code {}".format(http_code, maximum))
+        if strict:
+            raise InvalidHttpCode('{} is above maximum HTTP status code {}'.format(http_code, maximum))
+        else:
+            return default_http_code
     return http_code
 
 
@@ -261,20 +273,32 @@ class Status(object):
     def __init__(self,
                  code=200,
                  name_fail='No HTTP Name',
-                 description_fail='No HTTP Description'):
-        self.code = validate_http_code(code)
+                 description_fail='No HTTP Description',
+                 strict=True):
+        self.strict = strict
+        self.code = code
         self.name_fail = name_fail
         self.description_fail = description_fail
 
     def __unicode__(self, verbose=False):
         """
-        __unicode__(verbose=True) returns:  HTTP <code> <name> <description>
+        __unicode__(verbose=True) returns:  HTTP <code> <name>: <description>
         __unicode__(verbose=False) returns: HTTP <code> <name>
         """
         if verbose:
-            return u'HTTP {} {} {}'.format(self.code, self.name, self.description)
+            return six.u('HTTP {} {}: {}'.format(self.code, self.name, self.description))
         else:
-            return u'HTTP {} {}'.format(self.code, self.name)
+            return six.u('HTTP {} {}'.format(self.code, self.name))
+
+    @property
+    def code(self):
+        """Return our HTTP code."""
+        return self._code
+
+    @code.setter
+    def code(self, http_code):
+        """Set our HTTP code."""
+        self._code = validate_http_code(http_code, strict=self.strict)
 
     @property
     def name(self):
