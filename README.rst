@@ -57,6 +57,35 @@ Use of the Status object::
     >>> s.description
     'Server has disabled this request method and cannot be used.'
 
+
+Status() only accepts 'valid' HTTP status codes, ints from 100 to 599 as per RFC.
+If an invalid code is given, it will throw an InvalidHttpCode exception::
+
+    >>> from http_status import Status
+    >>> s = Status(9999)
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      File "/usr/local/lib/python2.7/site-packages/http_status/__init__.py", line 279, in __init__
+        self.code = code
+      File "/usr/local/lib/python2.7/site-packages/http_status/__init__.py", line 301, in code
+        self._code = validate_http_code(http_code, strict=self.strict)
+      File "/usr/local/lib/python2.7/site-packages/http_status/__init__.py", line 262, in validate_http_code
+        raise InvalidHttpCode('{} is above maximum HTTP status code {}'.format(http_code, maximum))
+    http_status.InvalidHttpCode: 9999 is above maximum HTTP status code 599
+
+However, it can be set to nonstrict to not throw exceptions, and simply return
+the standard name/description not found for invalid objects, as such::
+
+    >>> from http_status import Status
+    >>> s = Status(9999, strict=False)
+    >>> s
+    <http_status.Status object at 0x1101905d0>
+    >>> s.name
+    'No HTTP Name'
+    >>> s.code
+    0
+
+
 Note that if the Status object does not have a name/description matching the
 given code, it will return default strings (for compatability when directly
 inserting ``Status.name`` and ``Status.description`` into format strings.
@@ -65,14 +94,14 @@ This can be changed by passing arguments ``name_fail`` and
 ``description_fail`` when you create Status::
 
     >>> from http_status import Status
-    >>> s = Status(2435)
+    >>> s = Status(243)
     >>> s.name
     'No HTTP Name'
     >>> s.description
     'No HTTP Description.'
 
     >>> from http_status import Status
-    >>> s = Status(2435, name_fail='Nothing', description_fail='Nothing at all')
+    >>> s = Status(243, name_fail='Nothing', description_fail='Nothing at all')
     >>> s.name
     'Nothing'
     >>> s.description
