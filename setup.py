@@ -9,7 +9,7 @@ with open('README.rst') as file:
 
 setup(
     name='http-status',
-    version='0.2.0b',
+    version='1.0.0',
     description='HTTP Status codes, names, and descriptions.',
     long_description=long_description,
     author='Daniel Oaks, Chad Nelson',
@@ -18,7 +18,7 @@ setup(
     packages=['http_status'],
     package_dir={'http_status': 'src/http_status'},
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: BSD License',
